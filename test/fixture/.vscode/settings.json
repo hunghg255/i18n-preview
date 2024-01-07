@@ -1,0 +1,14 @@
+{
+  "i18n-preview.color": "#ddd",
+  "i18n-preview.customCollectionJsonPaths": {
+    "en": {
+      "common": "test/fixture/locales/en/common.json",
+    },
+    "vi": {
+      "common": "test/fixture/locales/vi/common.json",
+    }
+  },
+  "i18n-preview.delimiters": [
+    ":"
+  ]
+}

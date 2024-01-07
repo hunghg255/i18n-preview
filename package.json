@@ -1,0 +1,119 @@
+{
+  "publisher": "hunghg255",
+  "name": "i18n-preview",
+  "displayName": "I18n Preview IntelliSense Preview",
+  "type": "commonjs",
+  "version": "0.0.7",
+  "private": true,
+  "packageManager": "pnpm@8.9.2",
+  "description": "Intelligent i18n-preview previewing and searching for VS Code",
+  "license": "MIT",
+  "homepage": "https://github.com/hunghg255/i18n-preview",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hunghg255/i18n-preview"
+  },
+  "bugs": "https://github.com/hunghg255/i18n-preview/issues",
+  "keywords": [
+    "i18n",
+    "preview"
+  ],
+  "sponsor": {
+    "url": "https://github.com/sponsors/hunghg255"
+  },
+  "preview": true,
+  "categories": [
+    "Other",
+    "Visualization"
+  ],
+  "main": "dist/index.js",
+  "icon": "res/logo.png",
+  "engines": {
+    "vscode": "^1.81.0"
+  },
+  "activationEvents": [
+    "workspaceContains:package.json",
+    "onLanguage:vue",
+    "onLanguage:javascript",
+    "onLanguage:javascriptreact",
+    "onLanguage:typescript",
+    "onLanguage:typescriptreact",
+    "onLanguage:handlebars",
+    "onLanguage:svelte",
+    "onLanguage:html",
+    "onLanguage:pug"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "i18n-preview.toggle-annotations",
+        "category": "i18n-preview",
+        "title": "Toggle Annotations"
+      },
+      {
+        "command": "i18n-preview.clear-cache",
+        "category": "i18n-preview",
+        "title": "Clear icon cache"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "i18n-preview IntelliSense",
+      "properties": {
+        "i18n-preview.annotations": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enabled i18n-preview inline annotations"
+        },
+        "i18n-preview.languageIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "javascript",
+            "javascriptreact",
+            "typescript",
+            "typescriptreact",
+            "vue",
+            "svelte",
+            "html",
+            "pug"
+          ],
+          "description": "Array of language IDs to enable annotations"
+        },
+        "i18n-preview.translatorFunctionName": {
+          "type": "string",
+          "description": "The name of translator function.",
+          "default": "t"
+        },
+        "i18n-preview.localeDirectoryPath": {
+          "type": "object",
+          "description": "Language translation file directory path",
+          "default": null
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "esno scripts/build.ts",
+    "dev": "pnpm build -- --watch",
+    "lint": "eslint .",
+    "release": "bumpp --tag --push --commit"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^1.0.0-beta.29",
+    "@types/fs-extra": "^11.0.3",
+    "@types/lodash": "^4.14.202",
+    "@types/node": "^20.8.9",
+    "@types/vscode": "^1.83.1",
+    "@typescript-eslint/eslint-plugin": "^6.9.0",
+    "@vue/reactivity": "^3.3.7",
+    "bumpp": "^9.2.0",
+    "eslint": "^8.52.0",
+    "esno": "^0.17.0",
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2",
+    "fs-extra": "^11.1.1"
+  }
+}
