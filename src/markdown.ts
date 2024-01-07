@@ -22,10 +22,10 @@ function getParams(str: string) {
 
   const params = match.map((item) => {
     const key = item.replace(/[{{}}]/g, '')
-    return `@param \`${key}\` - {string|number|boolean}`
+    return `@param \`${key}\` - {string | number | boolean}\n`
   })
 
-  return `\n## Options:\n${params.join('\n')}`
+  return `\n#### Options:\n${params.join('\n')}`
 }
 
 export async function getLocaleInfoMarkdown(dictionary: any, localeKey: string) {
