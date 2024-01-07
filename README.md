@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://github.com/hunghg255/i18n-preview/blob/main/screenshots/preface.png?raw=true" alt="logo" width='650'/>
+<img src="https://github.com/hunghg255/i18n-preview/blob/main/res/logo.png?raw=true" alt="logo" width='650'/>
 </a>
 </p>
 
