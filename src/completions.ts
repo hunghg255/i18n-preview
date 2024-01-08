@@ -1,6 +1,6 @@
 import type { CompletionItemProvider, ExtensionContext, TextDocument } from 'vscode'
 import { CompletionItem, CompletionItemKind, Position, Range, languages, window, workspace } from 'vscode'
-import { config, flatLocale, onConfigUpdated } from './config'
+import { config, flatLocale, onConfigUpdatedOnlyFileChange } from './config'
 import { getLocaleInfoMarkdown } from './markdown'
 
 export function RegisterCompletion(ctx: ExtensionContext) {
@@ -38,7 +38,7 @@ export function RegisterCompletion(ctx: ExtensionContext) {
   }
 
   let timeout: NodeJS.Timer | undefined
-  function triggerUpdateProvider() {
+  function triggerUpdateProvider(fileName: string, type: string) {
     if (timeout) {
       clearTimeout(timeout as any)
       timeout = undefined
@@ -47,7 +47,7 @@ export function RegisterCompletion(ctx: ExtensionContext) {
       if (provider)
         provider.dispose()
 
-      await onConfigUpdated()
+      await onConfigUpdatedOnlyFileChange(fileName, type)
 
       window.showInformationMessage('i18n completion provider updated')
 
@@ -60,7 +60,7 @@ export function RegisterCompletion(ctx: ExtensionContext) {
     // vscode listen file change
     workspace.onDidSaveTextDocument(async (document: TextDocument) => {
       if ((document.fileName.toLowerCase().includes('locales') || document.fileName.toLowerCase().includes('locale')) && document.fileName.endsWith('.json'))
-        triggerUpdateProvider()
+        triggerUpdateProvider(document.fileName, 'Completion')
     })
   }
 

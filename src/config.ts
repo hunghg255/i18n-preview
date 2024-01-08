@@ -3,7 +3,7 @@ import { ColorThemeKind, window, workspace } from 'vscode'
 import fs from 'fs-extra'
 import { computed, reactive, ref } from '@vue/reactivity'
 import { EXT_NAMESPACE } from './meta'
-import { flattenDictionary } from './utils'
+import { detectLocalFromFileName, flattenDictionary } from './utils'
 
 const _configState = ref(0)
 
@@ -96,6 +96,56 @@ export async function LoadLocalesDirectory() {
 export async function onConfigUpdated() {
   _configState.value = +new Date()
   await LoadLocalesDirectory()
+}
+
+export async function onConfigUpdatedOnlyFileChange(fileName: string, type: string) {
+  _configState.value = +new Date()
+
+  try {
+    const { locale, namespace } = detectLocalFromFileName(fileName)
+
+    const source = (config.localeDirectoryPath as any)[locale][namespace]
+
+    if (!source)
+      throw new Error(`No source found for ${locale} ${namespace}`)
+
+    let filePath = ''
+
+    if (isAbsolute(source)) {
+      filePath = source
+    }
+    else {
+      const list: string[] = []
+      if (workspace?.workspaceFolders) {
+        for (const folder of workspace.workspaceFolders)
+          list.push(resolve(folder.uri.fsPath, source))
+      }
+      filePath = list[0]
+    }
+
+    if (fs.existsSync(filePath)) {
+      const data = await fs.readJSON(filePath)
+      const keys = Object.keys(data)
+      const newData = {} as any
+
+      for (const key of keys) {
+        newData[key] = data[key]
+        newData[`${namespace}:${key}`] = data[key]
+      }
+
+      window.showInformationMessage(`i18n-preview ${type} updated at ${locale}/${namespace}`)
+
+      localeStore.value[locale][namespace] = newData
+    }
+    else {
+      window.showInformationMessage(`i18n-preview ${type} updated`)
+      await LoadLocalesDirectory()
+    }
+  }
+  catch (error) {
+    window.showInformationMessage(`i18n-preview ${type} updated`)
+    await LoadLocalesDirectory()
+  }
 }
 
 export const color = computed(() => {

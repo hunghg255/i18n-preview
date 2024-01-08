@@ -2,7 +2,7 @@ import type { DecorationOptions, ExtensionContext, TextEditor } from 'vscode'
 import { DecorationRangeBehavior, Range, Uri, window, workspace } from 'vscode'
 import { isTruthy } from './utils'
 
-import { config, flatLocale, onConfigUpdated } from './config'
+import { config, flatLocale, onConfigUpdated, onConfigUpdatedOnlyFileChange } from './config'
 import { getLocaleInfoMarkdown } from './markdown'
 import { getSVG } from './utils/svg'
 
@@ -136,8 +136,8 @@ export function RegisterAnnotations(ctx: ExtensionContext) {
     // vscode listen file change
     workspace.onDidSaveTextDocument(async (document) => {
       if ((document.fileName.toLowerCase().includes('locales') || document.fileName.toLowerCase().includes('locale')) && document.fileName.endsWith('.json')) {
-        await onConfigUpdated()
-        window.showInformationMessage('i18n annotation updated')
+        await onConfigUpdatedOnlyFileChange(document.fileName, 'Annotation')
+        // window.showInformationMessage('i18n annotation updated')
 
         triggerUpdateDecorations()
       }

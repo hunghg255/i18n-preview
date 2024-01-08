@@ -3,7 +3,7 @@
   "name": "i18n-preview",
   "displayName": "I18n IntelliSense Preview",
   "type": "commonjs",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "private": true,
   "packageManager": "pnpm@8.9.2",
   "description": "Intelligent i18n-preview previewing and searching for VS Code",

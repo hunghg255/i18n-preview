@@ -24,3 +24,14 @@ export function flattenDictionary(dictionary: Dictionary): Dictionary {
     {},
   )
 }
+
+export function detectLocalFromFileName(fileName: string) {
+  const fileNameFormat = fileName.replace('.json', '').replace(/\\/g, '/').split('/')
+  const locale = fileNameFormat[fileNameFormat.length - 2]
+  const namespace = fileNameFormat[fileNameFormat.length - 1]
+
+  return {
+    locale,
+    namespace,
+  }
+}
