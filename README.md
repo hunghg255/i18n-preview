@@ -21,6 +21,7 @@
 // reload
  "i18n-preview.watchFile": true,
 
+  "i18n-preview.annotations": true,
  "i18n-preview.localeDirectoryPath": {
     "en": {
       "common": "./public/locales/en/common.json"
