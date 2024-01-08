@@ -31,7 +31,15 @@ export function RegisterCompletion(ctx: ExtensionContext) {
 
   ctx.subscriptions.push(
     languages.registerCompletionItemProvider(
-      config.languageIds,
+      [
+        { language: 'typescript', scheme: 'file' },
+        { language: 'typescriptreact', scheme: 'file' },
+        { language: 'javascript', scheme: 'file' },
+        { language: 'javascriptreact', scheme: 'file' },
+        { language: 'html', scheme: 'file' },
+        { language: 'vue', scheme: 'file' },
+        { language: 'svelte', scheme: 'file' },
+      ],
       collectionProvider,
       '"',
       '\'',
