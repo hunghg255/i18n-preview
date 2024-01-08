@@ -138,13 +138,13 @@ export async function onConfigUpdatedOnlyFileChange(fileName: string, type: stri
       localeStore.value[locale][namespace] = newData
     }
     else {
-      window.showInformationMessage(`i18n-preview ${type} updated`)
       await LoadLocalesDirectory()
+      window.showInformationMessage(`i18n-preview ${type} updated`)
     }
   }
   catch (error) {
-    window.showInformationMessage(`i18n-preview ${type} updated`)
     await LoadLocalesDirectory()
+    window.showInformationMessage(`i18n-preview ${type} updated`)
   }
 }
 

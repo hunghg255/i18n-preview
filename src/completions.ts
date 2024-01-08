@@ -49,8 +49,6 @@ export function RegisterCompletion(ctx: ExtensionContext) {
 
       await onConfigUpdatedOnlyFileChange(fileName, type)
 
-      window.showInformationMessage('i18n completion provider updated')
-
       provider = null
       start()
     }, 200)
