@@ -59,7 +59,7 @@ export function RegisterCompletion(ctx: ExtensionContext) {
   if (config.watchFile) {
     // vscode listen file change
     workspace.onDidSaveTextDocument(async (document: TextDocument) => {
-      if ((document.fileName.includes('locales') || document.fileName.includes('locale')) && document.fileName.endsWith('.json'))
+      if ((document.fileName.toLowerCase().includes('locales') || document.fileName.toLowerCase().includes('locale')) && document.fileName.endsWith('.json'))
         triggerUpdateProvider()
     })
   }

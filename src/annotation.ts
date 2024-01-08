@@ -135,7 +135,7 @@ export function RegisterAnnotations(ctx: ExtensionContext) {
   if (config.watchFile) {
     // vscode listen file change
     workspace.onDidSaveTextDocument(async (document) => {
-      if ((document.fileName.includes('locales') || document.fileName.includes('locale')) && document.fileName.endsWith('.json')) {
+      if ((document.fileName.toLowerCase().includes('locales') || document.fileName.toLowerCase().includes('locale')) && document.fileName.endsWith('.json')) {
         await onConfigUpdated()
         window.showInformationMessage('i18n annotation updated')
 
