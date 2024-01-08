@@ -3,6 +3,7 @@ import { ColorThemeKind, window, workspace } from 'vscode'
 import fs from 'fs-extra'
 import { computed, reactive, ref } from '@vue/reactivity'
 import { EXT_NAMESPACE } from './meta'
+import { flattenDictionary } from './utils'
 
 const _configState = ref(0)
 
@@ -40,6 +41,7 @@ export const config = reactive({
   languageIds: createConfigRef(`${EXT_NAMESPACE}.languageIds`, []),
   localeDirectoryPath: createConfigRef(`${EXT_NAMESPACE}.localeDirectoryPath`, null),
   translatorFunctionName: createConfigRef(`${EXT_NAMESPACE}.translatorFunctionName`, 't'),
+  watchFile: createConfigRef(`${EXT_NAMESPACE}.watchFile`, false),
 })
 
 export async function LoadLocalesDirectory() {
@@ -120,4 +122,15 @@ function isDarkTheme() {
 
   // IDK, maybe dark
   return true
+}
+
+export function flatLocale() {
+  const locales = flattenDictionary(localeStore.value)
+  const firstLangKey = Object.keys(locales)[0]
+  const localeKeys = Object.keys(locales[firstLangKey])
+
+  return {
+    locales,
+    localeKeys,
+  }
 }

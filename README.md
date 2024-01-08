@@ -18,6 +18,9 @@
 ## Config `.vscode/settings.json`
 
 ```json
+// reload
+ "i18n-preview.watchFile": true,
+
  "i18n-preview.localeDirectoryPath": {
     "en": {
       "common": "./public/locales/en/common.json"

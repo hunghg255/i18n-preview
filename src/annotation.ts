@@ -1,9 +1,9 @@
 import type { DecorationOptions, ExtensionContext, TextEditor } from 'vscode'
 import { DecorationRangeBehavior, Range, Uri, window, workspace } from 'vscode'
-import { flattenDictionary, isTruthy } from './utils'
+import { isTruthy } from './utils'
 
+import { config, flatLocale, onConfigUpdated } from './config'
 import { getLocaleInfoMarkdown } from './markdown'
-import { config, localeStore, onConfigUpdated } from './config'
 import { getSVG } from './utils/svg'
 
 export interface DecorationMatch extends DecorationOptions {
@@ -19,12 +19,6 @@ export function RegisterAnnotations(ctx: ExtensionContext) {
     textDecoration: 'none; display: none;', // a hack to inject custom style
   })
 
-  const locales = flattenDictionary(localeStore.value)
-  const firstLangKey = Object.keys(locales)[0]
-  const localeKeys = Object.keys(locales[firstLangKey])
-
-  const REGEX_FULL = new RegExp(`[^\\w\\d](?:(${localeKeys.join('|')}))['"]`, 'g')
-
   let decorations: DecorationMatch[] = []
   let editor: TextEditor | undefined
 
@@ -38,6 +32,10 @@ export function RegisterAnnotations(ctx: ExtensionContext) {
       editor.setDecorations(InlineIconDecoration, [])
       return
     }
+
+    const { locales, localeKeys } = flatLocale()
+
+    const REGEX_FULL = new RegExp(`[^\\w\\d](?:(${localeKeys.join('|')}))['"]`, 'g')
 
     const text = editor.document.getText()
     let match
@@ -133,6 +131,18 @@ export function RegisterAnnotations(ctx: ExtensionContext) {
     updateEditor(e.textEditor)
     refreshDecorations()
   })
+
+  if (config.watchFile) {
+    // vscode listen file change
+    workspace.onDidSaveTextDocument(async (document) => {
+      if ((document.fileName.includes('locales') || document.fileName.includes('locale')) && document.fileName.endsWith('.json')) {
+        await onConfigUpdated()
+        window.showInformationMessage('i18n annotation updated')
+
+        triggerUpdateDecorations()
+      }
+    }, null, ctx.subscriptions)
+  }
 
   // on start up
   updateEditor(window.activeTextEditor)
