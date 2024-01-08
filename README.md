@@ -14,3 +14,16 @@
 
 - Inline display corresponding locale
 - Hover
+
+## Config `.vscode/settings.json`
+
+```json
+ "i18n-preview.localeDirectoryPath": {
+    "en": {
+      "common": "./public/locales/en/common.json"
+    },
+    "vi": {
+      "common": "./public/locales/vi/common.json"
+    }
+  }
+```
