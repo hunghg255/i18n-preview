@@ -27,18 +27,15 @@ function getParams(str: string) {
 
 export async function getLocaleInfoMarkdown(dictionary: any, localeKey: string) {
   const localeList = Object.keys(dictionary)
-  const localeVal = [] as any
 
   const internationalizedStringList = localeList.map((locale) => {
-    localeVal.push(dictionary[locale])
-
     return `|${locale}|${internationalize(
       dictionary[locale],
       localeKey,
     )}|`
   })
 
-  const options = getParams(localeVal.join(' '))
+  const options = getParams(internationalizedStringList.join(' '))
 
   return new MarkdownString(
     `${['|Locales|Translate|', '|:----|----:|', ...internationalizedStringList].join(
