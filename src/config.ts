@@ -51,15 +51,16 @@ export async function LoadLocalesDirectory() {
 
   const dictionary = Object.keys(localeDirectoryPath)
 
-  const workspaceLocale = Object.keys(localeDirectoryPath[dictionary[0]])
-
   const r = {} as any
 
   for (const locale of dictionary) {
     if (!r[locale])
       r[locale] = {}
 
-    for (const namespaceLocale of workspaceLocale) {
+    const namespaceObj = localeDirectoryPath[locale]
+    const namespaceKeys = Object.keys(namespaceObj)
+
+    for (const namespaceLocale of namespaceKeys) {
       if (!r[locale][namespaceLocale])
         r[locale][namespaceLocale] = {}
 
@@ -176,8 +177,11 @@ function isDarkTheme() {
 
 export function flatLocale() {
   const locales = flattenDictionary(localeStore.value)
-  const firstLangKey = Object.keys(locales)[0]
-  const localeKeys = Object.keys(locales[firstLangKey])
+  let localeKeys = [] as any
+  Object.keys(locales).forEach((it) => {
+    localeKeys.push(...Object.keys(locales[it]))
+  })
+  localeKeys = [...new Set(localeKeys)]
 
   return {
     locales,
