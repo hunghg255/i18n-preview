@@ -31,7 +31,7 @@ export function RegisterCompletion(ctx: ExtensionContext) {
     provider = languages.registerCompletionItemProvider(
       config.languageIds,
       collectionProvider,
-      ...['"', '\'', ':'],
+      ...['"', '\''],
     )
 
     ctx.subscriptions.push(provider)
