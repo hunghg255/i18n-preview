@@ -83,8 +83,8 @@ export async function LoadLocalesDirectory() {
         const keys = Object.keys(data)
         const newData = {} as any
         for (const key of keys) {
-          newData[key] = data[key]
-          newData[`${namespaceLocale}:${key}`] = data[key]
+          newData[key] = `${data[key]}_ns_${namespaceLocale}`
+          newData[`${namespaceLocale}:${key}`] = `${data[key]}_ns_${namespaceLocale}`
         }
         r[locale][namespaceLocale] = newData
       }

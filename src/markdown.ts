@@ -1,8 +1,11 @@
 /* eslint-disable prefer-regex-literals */
 import { MarkdownString } from 'vscode'
 
-function internationalize(arrKeys: Record<string, string>, localeKey: string) {
-  return arrKeys[localeKey] ?? ''
+function extractLocaleValue(arrKeys: Record<string, string>, localeKey: string) {
+  return {
+    value: arrKeys[localeKey] ? arrKeys[localeKey].split('_ns_')[0] : '',
+    namespace: arrKeys[localeKey] ? arrKeys[localeKey].split('_ns_')[1] : '',
+  }
 }
 
 const reg = new RegExp(/[{{]\w+[}}]/g)
@@ -29,16 +32,18 @@ export async function getLocaleInfoMarkdown(dictionary: any, localeKey: string) 
   const localeList = Object.keys(dictionary)
 
   const internationalizedStringList = localeList.map((locale) => {
-    return `|${locale}|${internationalize(
+    const { value, namespace } = extractLocaleValue(
       dictionary[locale],
       localeKey,
-    )}|`
+    )
+
+    return `|${locale}|${value}|\`${namespace}.json\`|`
   })
 
   const options = getParams(internationalizedStringList.join(' '))
 
   return new MarkdownString(
-    `${['|Locales|Translate|', '|:----|----:|', ...internationalizedStringList].join(
+    `${['|Locales|Translate|NS', '|:----|----:|', ...internationalizedStringList].join(
       '\n',
     )}${options}`,
   )
