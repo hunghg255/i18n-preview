@@ -37,7 +37,7 @@ export async function getLocaleInfoMarkdown(dictionary: any, localeKey: string) 
       localeKey,
     )
 
-    return `|${locale}|${value}|\`${namespace}.json\`|`
+    return `|${locale}|${value}|\`${namespace}\`|`
   })
 
   const options = getParams(internationalizedStringList.join(' '))
