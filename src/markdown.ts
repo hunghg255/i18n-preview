@@ -43,7 +43,7 @@ export async function getLocaleInfoMarkdown(dictionary: any, localeKey: string) 
   const options = getParams(internationalizedStringList.join(' '))
 
   return new MarkdownString(
-    `${['|Locales|Translate|NS', '|:----|----:|', ...internationalizedStringList].join(
+    `${['|Locales|Translate|NS|', '|:----:|:----:|:----:|', ...internationalizedStringList].join(
       '\n',
     )}${options}`,
   )
